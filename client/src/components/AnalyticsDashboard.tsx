@@ -147,38 +147,40 @@ export default function AnalyticsDashboard() {
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         }`}>
           <h3 className="text-lg font-bold text-foreground mb-6">Monthly Engagement Heatmap</h3>
-          <div className="flex items-end justify-between gap-2 h-56">
-            {monthlyHeatmap.map((month) => {
-              const maxValue = Math.max(...monthlyHeatmap.map(m => m.value));
-              const heightPercent = (month.value / maxValue) * 100;
-              const isHighest = month.value === maxValue;
-              
-              return (
-                <div key={month.month} className="flex-1 flex flex-col items-center justify-end h-full">
-                  <span 
-                    className={`text-xs font-semibold mb-1 transition-all duration-1000 ${
-                      animatedBars ? "opacity-100" : "opacity-0"
-                    } ${isHighest ? "text-primary" : "text-muted-foreground"}`}
-                  >
-                    {month.value}
-                  </span>
-                  <div 
-                    className={`w-full rounded-t-md transition-all duration-1000 ease-out ${
-                      isHighest ? "bg-primary" : "bg-primary/60"
-                    }`}
-                    style={{ 
-                      height: animatedBars ? `${heightPercent}%` : "0%",
-                      maxHeight: "180px",
-                      minHeight: animatedBars ? "12px" : "0px",
-                    }}
-                    data-testid={`bar-${month.month.toLowerCase()}`}
-                  />
-                  <span className={`text-xs mt-2 ${isHighest ? "text-foreground font-semibold" : "text-muted-foreground"}`}>
-                    {month.month}
-                  </span>
-                </div>
-              );
-            })}
+          <div className="overflow-x-auto pb-4">
+            <div className="flex items-end justify-between gap-2 h-56 min-w-[500px] md:min-w-0">
+              {monthlyHeatmap.map((month) => {
+                const maxValue = Math.max(...monthlyHeatmap.map(m => m.value));
+                const heightPercent = (month.value / maxValue) * 100;
+                const isHighest = month.value === maxValue;
+                
+                return (
+                  <div key={month.month} className="flex-1 flex flex-col items-center justify-end h-full">
+                    <span 
+                      className={`text-xs font-semibold mb-1 transition-all duration-1000 ${
+                        animatedBars ? "opacity-100" : "opacity-0"
+                      } ${isHighest ? "text-primary" : "text-muted-foreground"}`}
+                    >
+                      {month.value}
+                    </span>
+                    <div 
+                      className={`w-full rounded-t-md transition-all duration-1000 ease-out ${
+                        isHighest ? "bg-primary" : "bg-primary/60"
+                      }`}
+                      style={{ 
+                        height: animatedBars ? `${heightPercent}%` : "0%",
+                        maxHeight: "180px",
+                        minHeight: animatedBars ? "12px" : "0px",
+                      }}
+                      data-testid={`bar-${month.month.toLowerCase()}`}
+                    />
+                    <span className={`text-xs mt-2 ${isHighest ? "text-foreground font-semibold" : "text-muted-foreground"}`}>
+                      {month.month}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
           <div className="flex items-center justify-center gap-4 mt-6 text-sm">
             <div className="flex items-center gap-2">
